@@ -1,3 +1,3 @@
 module github.com/structuralmike/adventofcode2025
 
-go 1.25.5
+go 1.25.4
