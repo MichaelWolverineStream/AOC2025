@@ -1,5 +1,3 @@
-module github.com/structuralmike/adventofcode2024
+module github.com/structuralmike/adventofcode2025
 
-go 1.23.3
-
-require github.com/mxschmitt/golang-combinations v1.2.0
+go 1.25.5
