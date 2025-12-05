@@ -11,9 +11,9 @@ func solvePart1(inputFile string) int {
 	return 0
 }
 
-// func solvePart2(inputFile string) int {
-// 	return 0
-// }
+func solvePart2(inputFile string) int {
+	return 0
+}
 
 func loadDayData(inputFile string) []string {
 	file, err := os.Open(inputFile)
@@ -40,5 +40,6 @@ func loadDayData(inputFile string) []string {
 func main() {
 	fmt.Println(solvePart1("sample_input.txt"))
 	// fmt.Println(solvePart1("input1.txt"))
+	// fmt.Println(solvePart2("sample_input.txt"))
 	// fmt.Println(solvePart2("input1.txt"))
 }
