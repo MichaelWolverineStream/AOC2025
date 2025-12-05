@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"log"
-	"math"
 	"os"
 	"strconv"
 	"strings"
@@ -32,77 +31,57 @@ func solvePart1(inputFile string) int {
 
 func solvePart2(inputFile string) int {
 	ranges, _ := loadDayData(inputFile)
-
 	freshIds := 0
-
-	var calc [][]int
-
-	for _, r := range ranges {
-		nmin, nmax := r[0], r[1]
-
-		isOverlap := false
-
-		for i, c := range calc {
-			// No overlap
-			if nmax < c[0] {
-				continue
-			}
-			if nmin > c[1] {
-				continue
-			}
-
-			isOverlap = true
-
-			calc[i][0] = int(math.Min(float64(nmin), float64(c[0])))
-			calc[i][1] = int(math.Max(float64(nmax), float64(c[1])))
-
-			break
-		}
-
-		if !isOverlap {
-			calc = append(calc, []int{nmin, nmax})
-		}
-
-	}
-
 	changes := true
 
 	for changes {
-
 		changes = false
 
-		for i, r1 := range calc[:len(calc)-1] {
+		for i, r1 := range ranges[:len(ranges)-1] {
 			if changes {
 				break
 			}
-			for j, r2 := range calc[i+1:] {
-				nmin, nmax := r2[0], r2[1]
 
-				// No overlap
-				if nmax < r1[0] {
-					continue
-				}
-				if nmin > r1[1] {
+			nmin1, nmax1 := r1[0], r1[1]
+
+			for j, r2 := range ranges[i+1:] {
+				nmin2, nmax2 := r2[0], r2[1]
+
+				if nmax2 < nmin1 || nmin2 > nmax1 {
 					continue
 				}
 
 				changes = true
 
-				calc[i][0] = int(math.Min(float64(nmin), float64(r1[0])))
-				calc[i][1] = int(math.Max(float64(nmax), float64(r1[1])))
+				ranges[i][0] = minInt(nmin1, nmin2)
+				ranges[i][1] = maxInt(nmax1, nmax2)
 
-				calc = append(calc[:i+j+1], calc[i+j+2:]...)
-
+				ranges = append(ranges[:i+j+1], ranges[i+j+2:]...)
 				break
 			}
 		}
 	}
 
-	for _, r := range calc {
+	for _, r := range ranges {
 		freshIds += r[1] - r[0] + 1
 	}
-
 	return freshIds
+}
+
+func minInt(v1 int, v2 int) int {
+	if v1 < v2 {
+		return v1
+	} else {
+		return v2
+	}
+}
+
+func maxInt(v1 int, v2 int) int {
+	if v1 > v2 {
+		return v1
+	} else {
+		return v2
+	}
 }
 
 func loadDayData(inputFile string) ([][]int, []int) {
